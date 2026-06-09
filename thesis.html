@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Success Factors of Startup Companies — Natali Petricic</title>
+  <meta name="description" content="Master's thesis by Natali Petricic, University of Rijeka, 2018. Examining the key success factors of startup companies through theory and a case study of Maracom Software." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=IBM+Plex+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --ink:    #0C0F1A;
+      --ink2:   #141828;
+      --card:   #1a1f30;
+      --amber:  #E8A838;
+      --amber2: #cf9225;
+      --cream:  #F2EFE8;
+      --muted:  #8a94aa;
+      --pale:   #b8c0cc;
+      --border: rgba(232,168,56,0.18);
+      --serif:  'Playfair Display', Georgia, serif;
+      --sans:   'IBM Plex Sans', system-ui, sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--ink);
+      color: var(--cream);
+      font-size: 15px;
+      line-height: 1.75;
+      overflow-x: hidden;
+    }
+
+    /* ── NAV ───────────────────────────────────────────── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.25rem 2.5rem;
+      transition: background .4s, backdrop-filter .4s;
+    }
+    nav.scrolled {
+      background: rgba(12,15,26,0.88);
+      backdrop-filter: blur(14px);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav-logo {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: 1rem;
+      letter-spacing: .06em;
+      color: var(--cream);
+      text-decoration: none;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: .75rem;
+      letter-spacing: .1em;
+      text-transform: uppercase;
+      font-weight: 400;
+      transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--amber); }
+
+    /* ── HERO ──────────────────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      padding: 2rem;
+    }
+
+    canvas#bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+
+    .hero-inner { position: relative; z-index: 2; max-width: 860px; }
+
+    .hero-meta {
+      font-size: .7rem;
+      letter-spacing: .3em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: 2rem;
+      opacity: 0;
+      animation: fadeUp .8s .3s forwards;
+    }
+
+    .hero-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 7vw, 6rem);
+      line-height: 1.08;
+      letter-spacing: -.01em;
+      color: var(--cream);
+      opacity: 0;
+      animation: fadeUp 1s .55s forwards;
+    }
+    .hero-title em {
+      font-style: italic;
+      color: var(--amber);
+    }
+
+    .hero-subtitle {
+      margin-top: 1.75rem;
+      font-size: clamp(.82rem, 2vw, .95rem);
+      font-weight: 300;
+      color: var(--muted);
+      letter-spacing: .04em;
+      line-height: 1.6;
+      opacity: 0;
+      animation: fadeUp .9s .8s forwards;
+    }
+
+    .hero-byline {
+      margin-top: 1rem;
+      font-size: .78rem;
+      color: var(--pale);
+      letter-spacing: .06em;
+      opacity: 0;
+      animation: fadeUp .9s 1s forwards;
+    }
+
+    .hero-cta {
+      margin-top: 2.5rem;
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp .9s 1.15s forwards;
+    }
+
+    .btn {
+      display: inline-block;
+      text-decoration: none;
+      padding: .65rem 1.6rem;
+      border-radius: 2px;
+      font-family: var(--sans);
+      font-size: .75rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      font-weight: 500;
+      transition: all .25s;
+    }
+    .btn-primary {
+      background: var(--amber);
+      color: var(--ink);
+    }
+    .btn-primary:hover { background: var(--amber2); transform: translateY(-1px); }
+    .btn-ghost {
+      border: 1px solid var(--border);
+      color: var(--cream);
+    }
+    .btn-ghost:hover { border-color: var(--amber); color: var(--amber); transform: translateY(-1px); }
+
+    .scroll-hint {
+      position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+      display: flex; flex-direction: column; align-items: center; gap: .5rem;
+      opacity: 0; animation: fadeUp .9s 1.5s forwards;
+      color: var(--muted); font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+    }
+    .scroll-hint span {
+      display: block; width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--amber), transparent);
+      animation: lineDown 1.8s 2.2s infinite;
+    }
+
+    /* ── SHARED SECTION ────────────────────────────────── */
+    section { padding: 6rem 2rem; }
+    .container { max-width: 960px; margin: 0 auto; }
+
+    .section-label {
+      font-size: .68rem;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+      color: var(--amber);
+      margin-bottom: .75rem;
+      font-weight: 400;
+    }
+    .section-title {
+      font-family: var(--serif);
+      font-weight: 400;
+      font-size: clamp(1.9rem, 4vw, 2.7rem);
+      margin-bottom: 2.5rem;
+      line-height: 1.2;
+      color: var(--cream);
+    }
+    .section-title em { font-style: italic; color: var(--amber); }
+
+    /* ── ABSTRACT ──────────────────────────────────────── */
+    #abstract { background: var(--ink2); }
+
+    .abstract-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 700px) { .abstract-grid { grid-template-columns: 1fr; gap: 2rem; } }
+
+    .abstract-meta { }
+    .meta-block { margin-bottom: 2rem; }
+    .meta-label {
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: .4rem;
+    }
+    .meta-value { font-size: .88rem; color: var(--pale); line-height: 1.5; }
+
+    .keyword-list { display: flex; flex-wrap: wrap; gap: .4rem; margin-top: .5rem; }
+    .keyword {
+      font-size: .7rem; padding: .2rem .6rem;
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      color: var(--muted);
+    }
+
+    .abstract-text {
+      font-size: .95rem;
+      color: #c8d0dc;
+      line-height: 1.85;
+    }
+    .abstract-text p + p { margin-top: 1.1rem; }
+
+    /* ── HYPOTHESES ────────────────────────────────────── */
+    #hypotheses { background: var(--ink); }
+
+    .hypo-intro {
+      font-size: .95rem; color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 4rem;
+      line-height: 1.7;
+    }
+
+    .hypo-list { display: flex; flex-direction: column; gap: 0; }
+
+    .hypo-item {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+      padding: 2.5rem 0;
+      border-top: 1px solid rgba(232,168,56,0.12);
+      align-items: start;
+      opacity: 0; transform: translateY(16px);
+      transition: opacity .6s, transform .6s;
+    }
+    .hypo-item:last-child { border-bottom: 1px solid rgba(232,168,56,0.12); }
+    .hypo-item.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 600px) {
+      .hypo-item { grid-template-columns: 60px 1fr; gap: 1rem; }
+    }
+
+    .hypo-number {
+      font-family: var(--serif);
+      font-size: 3.5rem;
+      font-weight: 400;
+      color: rgba(232,168,56,0.25);
+      line-height: 1;
+      padding-top: .15rem;
+    }
+    .hypo-content { }
+    .hypo-tag {
+      font-size: .65rem; letter-spacing: .2em; text-transform: uppercase;
+      color: var(--amber); margin-bottom: .5rem;
+    }
+    .hypo-statement {
+      font-family: var(--serif);
+      font-size: clamp(1.05rem, 2.2vw, 1.3rem);
+      font-weight: 400;
+      color: var(--cream);
+      line-height: 1.4;
+      margin-bottom: .7rem;
+    }
+    .hypo-detail {
+      font-size: .82rem; color: var(--muted); line-height: 1.65;
+    }
+
+    /* ── THEMES ────────────────────────────────────────── */
+    #themes { background: var(--ink2); }
+
+    .themes-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+    }
+    @media (max-width: 800px) { .themes-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 500px) { .themes-grid { grid-template-columns: 1fr; } }
+
+    .theme-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 3px;
+      padding: 1.75rem;
+      opacity: 0; transform: translateY(14px);
+      transition: opacity .5s, transform .5s, border-color .25s;
+    }
+    .theme-card.visible { opacity: 1; transform: none; }
+    .theme-card:hover { border-color: rgba(232,168,56,.4); }
+
+    .theme-icon {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+    .theme-name {
+      font-family: var(--serif);
+      font-size: 1.05rem;
+      margin-bottom: .5rem;
+      color: var(--cream);
+    }
+    .theme-desc { font-size: .8rem; color: var(--muted); line-height: 1.6; }
+
+    /* ── CASE STUDY ────────────────────────────────────── */
+    #casestudy { background: var(--ink); }
+
+    .case-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+    @media (max-width: 720px) { .case-layout { grid-template-columns: 1fr; gap: 2.5rem; } }
+
+    .case-narrative { }
+    .case-narrative p {
+      font-size: .9rem; color: #c0c8d8; line-height: 1.8;
+    }
+    .case-narrative p + p { margin-top: 1rem; }
+
+    .case-stats { }
+    .stat-block {
+      border-left: 2px solid var(--amber);
+      padding: 1.1rem 1.5rem;
+      margin-bottom: 1.25rem;
+      background: rgba(232,168,56,0.04);
+      opacity: 0; transform: translateX(14px);
+      transition: opacity .5s, transform .5s;
+    }
+    .stat-block.visible { opacity: 1; transform: none; }
+    .stat-number {
+      font-family: var(--serif);
+      font-size: 2.2rem;
+      font-weight: 700;
+      color: var(--amber);
+      line-height: 1;
+      margin-bottom: .2rem;
+    }
+    .stat-label { font-size: .75rem; color: var(--muted); letter-spacing: .05em; }
+    .stat-note { font-size: .78rem; color: #8a94aa; margin-top: .2rem; }
+
+    /* ── CONCLUSIONS ───────────────────────────────────── */
+    #conclusions { background: var(--ink2); }
+
+    .concl-text {
+      font-size: .95rem; color: #b8c4d4; line-height: 1.85;
+      max-width: 680px;
+      margin-bottom: 2rem;
+    }
+    .concl-text p + p { margin-top: 1rem; }
+
+    .confirmed-list {
+      list-style: none; display: flex; flex-direction: column; gap: .9rem;
+      margin-top: 2rem;
+    }
+    .confirmed-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+      font-size: .85rem; color: var(--pale);
+      padding: .9rem 1.1rem;
+      background: rgba(232,168,56,0.05);
+      border: 1px solid var(--border);
+      border-radius: 2px;
+      opacity: 0; transform: translateY(10px);
+      transition: opacity .5s, transform .5s;
+    }
+    .confirmed-item.visible { opacity: 1; transform: none; }
+    .confirmed-check {
+      width: 18px; height: 18px; flex-shrink: 0;
+      border-radius: 50%;
+      background: var(--amber);
+      display: flex; align-items: center; justify-content: center;
+      margin-top: .1rem;
+    }
+    .confirmed-check svg { width: 10px; height: 10px; }
+
+    /* ── AUTHOR ────────────────────────────────────────── */
+    #author { background: var(--ink); text-align: center; }
+
+    .author-name {
+      font-family: var(--serif);
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 400;
+      margin-bottom: .5rem;
+    }
+    .author-name em { font-style: italic; color: var(--amber); }
+    .author-role {
+      font-size: .82rem; color: var(--muted); letter-spacing: .06em;
+      margin-bottom: 2.5rem;
+    }
+    .author-links {
+      display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;
+    }
+
+    /* ── FOOTER ────────────────────────────────────────── */
+    footer {
+      text-align: center; padding: 2rem;
+      font-size: .7rem; color: rgba(138,148,170,.4);
+      border-top: 1px solid var(--border);
+      letter-spacing: .08em;
+      line-height: 1.8;
+    }
+
+    /* ── ANIMATIONS ────────────────────────────────────── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes lineDown {
+      0%   { transform: scaleY(0); transform-origin: top; }
+      50%  { transform: scaleY(1); transform-origin: top; }
+      51%  { transform: scaleY(1); transform-origin: bottom; }
+      100% { transform: scaleY(0); transform-origin: bottom; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation: none !important; transition: none !important; }
+      .hypo-item, .theme-card, .stat-block, .confirmed-item { opacity: 1 !important; transform: none !important; }
+    }
+
+    @media (max-width: 600px) {
+      nav { padding: 1rem 1.25rem; }
+      .nav-links { display: none; }
+      section { padding: 4rem 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav id="navbar">
+    <a class="nav-logo" href="#hero">MSc Thesis — N. Petricic</a>
+    <ul class="nav-links">
+      <li><a href="#abstract">Abstract</a></li>
+      <li><a href="#hypotheses">Hypotheses</a></li>
+      <li><a href="#themes">Themes</a></li>
+      <li><a href="#casestudy">Case Study</a></li>
+      <li><a href="#conclusions">Conclusions</a></li>
+      <li><a href="#author">Author</a></li>
+    </ul>
+  </nav>
+
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="bg"></canvas>
+    <div class="hero-inner">
+      <p class="hero-meta">Master's Thesis &nbsp;·&nbsp; Business Economics &nbsp;·&nbsp; 2018</p>
+      <h1 class="hero-title">
+        Success Factors of<br><em>Startup Companies</em>
+      </h1>
+      <p class="hero-subtitle">
+        Examining entrepreneurial potential, innovation, organisational strategy, and the role of support ecosystems in startup success — through theory and a live case study.
+      </p>
+      <p class="hero-byline">
+        Natali Petricic &nbsp;·&nbsp; University of Rijeka, Faculty of Business and Economics &nbsp;·&nbsp; Croatia
+      </p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#hypotheses">Read the Research</a>
+        <a class="btn btn-ghost" href="#casestudy">Case Study</a>
+      </div>
+    </div>
+    <div class="scroll-hint">
+      <span></span>
+      Scroll
+    </div>
+  </section>
+
+  <!-- ABSTRACT -->
+  <section id="abstract">
+    <div class="container">
+      <div class="abstract-grid">
+        <div class="abstract-meta">
+          <div class="meta-block">
+            <p class="meta-label">Author</p>
+            <p class="meta-value">Natali Petricic</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Degree</p>
+            <p class="meta-value">MSc, Business Economics — Entrepreneurship</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Institution</p>
+            <p class="meta-value">University of Rijeka<br>Faculty of Economics, Croatia</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Year</p>
+            <p class="meta-value">2018</p>
+          </div>
+          <div class="meta-block">
+            <p class="meta-label">Keywords</p>
+            <div class="keyword-list">
+              <span class="keyword">Startup</span>
+              <span class="keyword">Entrepreneurship</span>
+              <span class="keyword">Ecosystem</span>
+              <span class="keyword">Innovation</span>
+              <span class="keyword">Incubators</span>
+              <span class="keyword">Life Cycle</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <p class="section-label">Abstract</p>
+          <h2 class="section-title">What makes a startup<br><em>actually succeed?</em></h2>
+          <div class="abstract-text">
+            <p>The rapid development of technology and the informatisation of society have produced the phenomenon of startup companies — a force that marked the economy at the end of the 20th and the beginning of the 21st century. Unlike traditional small and medium-sized enterprises, startups are built on innovation and technological development, typically around a single, highly differentiated product or service that disrupts or advances a market.</p>
+            <p>This research sets out to determine the success factors specific to this form of entrepreneurship, alongside the innovative approaches to organisation, management, and financing that define it. The characteristic life cycle of a startup company is identified and mapped.</p>
+            <p>Through a case study and a review of key scientific literature, the research demonstrates the close connection between the psychological characteristics of entrepreneurs and their likelihood of success — as well as the critical importance of the business ecosystem and support organisations in which a startup operates.</p>
+            <p>The paper combines a theoretical overview of startup history and evolution with an empirical case study of a successful, newly founded IT startup with an innovative product.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HYPOTHESES -->
+  <section id="hypotheses">
+    <div class="container">
+      <p class="section-label">Research Hypotheses</p>
+      <h2 class="section-title">Four propositions,<br><em>all confirmed.</em></h2>
+      <p class="hypo-intro">Based on a structured review of entrepreneurship literature and an empirical case study, four working hypotheses were defined at the outset of the research. Each was tested through theory and practice, and each was confirmed.</p>
+
+      <div class="hypo-list">
+        <div class="hypo-item">
+          <div class="hypo-number">H1</div>
+          <div class="hypo-content">
+            <p class="hypo-tag">Entrepreneur</p>
+            <p class="hypo-statement">The personal characteristics of the entrepreneur are crucial for the creation of a new venture.</p>
+            <p class="hypo-detail">Psychological, sociological, and demographic traits — risk propensity, creativity, temperament, and prior experience — fundamentally shape an entrepreneur's capacity to recognise opportunity and build something lasting. Bolton and Thompson's FACETS framework (Focus, Advantage, Creativity, Ego, Team, Society) was central to this analysis.</p>
+          </div>
+        </div>
+        <div class="hypo-item">
+          <div class="hypo-number">H2</div>
+          <div class="hypo-content">
+            <p class="hypo-tag">Innovation</p>
+            <p class="hypo-statement">The development of an innovative product or service is of critical importance for the growth and success of startup companies.</p>
+            <p class="hypo-detail">Research consistently demonstrates a strong correlation between innovative products and market success. Startups that create genuinely differentiated offerings — rather than incremental improvements to existing ones — gain structural competitive advantages that are difficult to replicate, particularly in their early market phase.</p>
+          </div>
+        </div>
+        <div class="hypo-item">
+          <div class="hypo-number">H3</div>
+          <div class="hypo-content">
+            <p class="hypo-tag">Organisation</p>
+            <p class="hypo-statement">The success of a startup is determined by creating a creative organisation, entrepreneurial orientation, and constant introduction of innovative changes.</p>
+            <p class="hypo-detail">Entrepreneurial orientation — a company's tendency to act innovatively, take risks, and pursue market opportunities proactively — was shown to positively affect both financial and non-financial performance. A flat structure, a culture of creative brainstorming, and synergistic teamwork are hallmarks of startups that sustain their initial success.</p>
+          </div>
+        </div>
+        <div class="hypo-item">
+          <div class="hypo-number">H4</div>
+          <div class="hypo-content">
+            <p class="hypo-tag">Ecosystem</p>
+            <p class="hypo-statement">Entrepreneurial support organisations are a key factor in helping startups create successful organisations.</p>
+            <p class="hypo-detail">80% of startups outside incubator systems fail within five years, compared to an 87% survival rate for those within them. Incubators, accelerators, and networks provide not only subsidised space but advisory, legal, educational, and logistical support during the most vulnerable phases of a company's development.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- THEMES -->
+  <section id="themes">
+    <div class="container">
+      <p class="section-label">Research Themes</p>
+      <h2 class="section-title">Six areas of<br><em>investigation.</em></h2>
+      <div class="themes-grid">
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">History &amp; Evolution</p>
+          <p class="theme-desc">From Silicon Valley's "traitorous eight" in 1957 through the dot-com bubble and the lean startup revolution — tracing how the concept of the startup emerged and matured.</p>
+        </div>
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">Financing Sources</p>
+          <p class="theme-desc">Bootstrapping, FFF capital, business angels, venture capital funds, and bank financing — each source carries distinct trade-offs for control, risk, and growth potential.</p>
+        </div>
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">The Startup Ecosystem</p>
+          <p class="theme-desc">Universities, incubators, accelerators, investors, and service providers form a dynamic open system in which each element plays a specific role at different phases of a startup's life.</p>
+        </div>
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">Entrepreneurial Potential</p>
+          <p class="theme-desc">Bolton and Thompson's BTEI framework and the FACETS model provide structured tools for identifying individuals with genuine entrepreneurial capacity — separate from general business skill.</p>
+        </div>
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">Innovation Theory</p>
+          <p class="theme-desc">From Schumpeter's creative destruction to Drucker's innovation-as-tool and the lean startup methodology — analysing how innovation functions as a competitive strategy.</p>
+        </div>
+        <div class="theme-card">
+          <span class="theme-icon">◈</span>
+          <p class="theme-name">Measuring Success</p>
+          <p class="theme-desc">Financial indicators (profitability, liquidity, leverage) and non-financial ones (market share, customer satisfaction, employee engagement) together form a complete picture of startup performance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASE STUDY -->
+  <section id="casestudy">
+    <div class="container">
+      <p class="section-label">Empirical Research</p>
+      <h2 class="section-title">Case Study: <em>Maracom Software</em></h2>
+      <div class="case-layout">
+        <div class="case-narrative">
+          <p>Maracom Software was founded in 2016 by Ivan Marković, a 22-year-old programmer and economics student, after he identified a significant gap in the Croatian market: no adequate software solution existed for managing the day-to-day operations of driving schools.</p>
+          <p>Working from personal savings — with a computer, programming knowledge, and an idea as his only initial capital — Marković developed a prototype, tested it with a real client under controlled conditions, iterated based on feedback, and launched commercially within one year. The product required almost no upfront investment beyond intellectual effort.</p>
+          <p>Upon founding the company, Marković joined the PISAK entrepreneurial incubator in Sisak — the first privately initiated incubator in Croatia — where access to affordable premises, administrative support, mentoring, and a network of fellow entrepreneurs provided the stability needed to scale rapidly.</p>
+          <p>The resulting software system managed instructor scheduling, candidate tracking, exam results, GPS vehicle monitoring, invoice generation, and statistical reporting across four levels of user authorisation. A companion exam-preparation module led to an 85% increase in candidate pass rates across partner driving schools.</p>
+          <p>By April 2018, Maracom held a 100% market share in its core segment in Croatia, with 400 active users and a retained profit trajectory pointing towards 2 million kuna in annual revenue before the end of that year.</p>
+        </div>
+        <div class="case-stats">
+          <div class="stat-block">
+            <p class="stat-number">400</p>
+            <p class="stat-label">Active Users by April 2018</p>
+            <p class="stat-note">Up from 75 users in year one — a 433% increase over 2 years</p>
+          </div>
+          <div class="stat-block">
+            <p class="stat-number">100%</p>
+            <p class="stat-label">Market Share, Driving School Software</p>
+            <p class="stat-note">No comparable competitor product existed in Croatia at time of research</p>
+          </div>
+          <div class="stat-block">
+            <p class="stat-number">85%</p>
+            <p class="stat-label">Increase in Candidate Pass Rates</p>
+            <p class="stat-note">Achieved through the companion exam-preparation module</p>
+          </div>
+          <div class="stat-block">
+            <p class="stat-number">415K</p>
+            <p class="stat-label">Net Profit (kuna), Jan–Apr 2018</p>
+            <p class="stat-note">Entire venture financed through bootstrapping — zero external investment</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSIONS -->
+  <section id="conclusions">
+    <div class="container">
+      <p class="section-label">Conclusions</p>
+      <h2 class="section-title">What the research<br><em>confirmed.</em></h2>
+      <div class="concl-text">
+        <p>All four hypotheses were confirmed through the theoretical review and the case study evidence. The findings point to a consistent conclusion: startup success is not a product of any single factor, but of an interlocking system in which entrepreneurial character, innovative product development, organisational culture, and ecosystem support all operate together.</p>
+        <p>Startups are not simply smaller versions of established companies. They are temporary organisations searching for a scalable and repeatable business model — and the forces that determine whether they find it or fail are specific, identifiable, and to some extent manageable.</p>
+      </div>
+      <ul class="confirmed-list">
+        <li class="confirmed-item">
+          <span class="confirmed-check">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#0C0F1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span><strong>H1 Confirmed:</strong> An entrepreneur's personal traits — creativity, risk tolerance, temperament, and drive — are decisive in the creation and early development of a new venture. These qualities cannot be fully taught; they must be present at the outset.</span>
+        </li>
+        <li class="confirmed-item">
+          <span class="confirmed-check">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#0C0F1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span><strong>H2 Confirmed:</strong> Innovation is the primary differentiator. Startups that bring genuinely new products to market — rather than competing on price or incremental improvement — gain structural advantages that are difficult for incumbents to overcome quickly.</span>
+        </li>
+        <li class="confirmed-item">
+          <span class="confirmed-check">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#0C0F1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span><strong>H3 Confirmed:</strong> Entrepreneurial orientation — the combination of innovativeness, proactivity, and calculated risk-taking at every level of the organisation — is directly correlated with sustained performance. Creative culture is a strategic asset, not a soft benefit.</span>
+        </li>
+        <li class="confirmed-item">
+          <span class="confirmed-check">
+            <svg viewBox="0 0 10 10" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M1.5 5L4 7.5L8.5 2.5" stroke="#0C0F1A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </span>
+          <span><strong>H4 Confirmed:</strong> Entrepreneurial incubators and support organisations significantly increase the probability of startup survival and success. Their value extends well beyond subsidised rent — mentoring, networking, and access to institutional knowledge are equally important.</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- AUTHOR -->
+  <section id="author">
+    <div class="container">
+      <p class="section-label">Author</p>
+      <h2 class="author-name">Natali <em>Petricic</em></h2>
+      <p class="author-role">MSc Business Economics &nbsp;·&nbsp; University of Rijeka, Croatia &nbsp;·&nbsp; Hedehusene, Denmark</p>
+      <div class="author-links">
+        <a class="btn btn-primary" href="mailto:natalipetricic@gmail.com">natalipetricic@gmail.com</a>
+        <a class="btn btn-ghost" href="index.html">View Full CV</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>
+      "Success Factors of Startup Companies" — Master's Thesis<br>
+      Natali Petricic &nbsp;·&nbsp; Faculty of Business and Economics, University of Rijeka, Croatia &nbsp;·&nbsp; 2018<br>
+      Translated to English, 2024
+    </p>
+  </footer>
+
+  <script>
+    /* ── Navbar scroll ── */
+    const navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', () => {
+      navbar.classList.toggle('scrolled', window.scrollY > 40);
+    }, { passive: true });
+
+    /* ── Particle canvas ── */
+    (function () {
+      const canvas = document.getElementById('bg');
+      const ctx = canvas.getContext('2d');
+      let W, H, particles = [];
+
+      function resize() {
+        W = canvas.width  = canvas.offsetWidth;
+        H = canvas.height = canvas.offsetHeight;
+      }
+      window.addEventListener('resize', resize);
+      resize();
+
+      class Particle {
+        constructor() { this.reset(true); }
+        reset(init) {
+          this.x  = Math.random() * W;
+          this.y  = init ? Math.random() * H : H + 10;
+          this.r  = Math.random() * 1.2 + .25;
+          this.vy = -(Math.random() * .2 + .06);
+          this.vx = (Math.random() - .5) * .12;
+          this.a  = 0;
+          this.maxA = Math.random() * .28 + .06;
+          this.life = 0;
+          this.maxLife = Math.random() * 700 + 300;
+        }
+        update() {
+          this.x += this.vx; this.y += this.vy; this.life++;
+          const p = this.life / this.maxLife;
+          this.a = p < .2 ? p / .2 * this.maxA : p > .8 ? (1 - p) / .2 * this.maxA : this.maxA;
+          if (this.life > this.maxLife) this.reset(false);
+        }
+        draw() {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(232,168,56,${this.a})`;
+          ctx.fill();
+        }
+      }
+
+      for (let i = 0; i < 75; i++) particles.push(new Particle());
+
+      function drawOrb() {
+        const cx = W * .45, cy = H * .42, radius = Math.min(W, H) * .42;
+        const g = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+        g.addColorStop(0,  'rgba(232,168,56,0.06)');
+        g.addColorStop(.45,'rgba(180,100,20,0.03)');
+        g.addColorStop(1,  'rgba(12,15,26,0)');
+        ctx.beginPath();
+        ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+        ctx.fillStyle = g;
+        ctx.fill();
+      }
+
+      function frame() {
+        ctx.clearRect(0, 0, W, H);
+        drawOrb();
+        particles.forEach(p => { p.update(); p.draw(); });
+        requestAnimationFrame(frame);
+      }
+      frame();
+    })();
+
+    /* ── Scroll-reveal ── */
+    const revealEls = document.querySelectorAll(
+      '.hypo-item, .theme-card, .stat-block, .confirmed-item'
+    );
+    const io = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.classList.add('visible');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: .12 });
+    revealEls.forEach(el => io.observe(el));
+  </script>
+</body>
+</html>
